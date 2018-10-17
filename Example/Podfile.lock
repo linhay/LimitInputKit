@@ -1,8 +1,14 @@
 PODS:
   - LimitInputKit (0.0.1)
+  - SnapKit (4.0.1)
 
 DEPENDENCIES:
   - LimitInputKit (from `../`)
+  - SnapKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SnapKit
 
 EXTERNAL SOURCES:
   LimitInputKit:
@@ -10,7 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   LimitInputKit: 33b29aa40782ce9983011c02b9c7edd399918506
+  SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: a3e0c6044bbf7b2e0f91e0f201e318c48ff338fc
+PODFILE CHECKSUM: 83c653c95bf8ab14ace47c6d5e25342a8577385c
 
 COCOAPODS: 1.5.3
