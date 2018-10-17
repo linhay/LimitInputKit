@@ -1,6 +1,0 @@
-framework module Pods_LimitInputKit_Tests {
-  umbrella header "Pods-LimitInputKit_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}
