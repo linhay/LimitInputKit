@@ -1,0 +1,6 @@
+framework module Pods_LimitInputKit_Example {
+  umbrella header "Pods-LimitInputKit_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

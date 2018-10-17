@@ -1,0 +1,16 @@
+PODS:
+  - LimitInputKit (0.0.1)
+
+DEPENDENCIES:
+  - LimitInputKit (from `../`)
+
+EXTERNAL SOURCES:
+  LimitInputKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LimitInputKit: 33b29aa40782ce9983011c02b9c7edd399918506
+
+PODFILE CHECKSUM: a3e0c6044bbf7b2e0f91e0f201e318c48ff338fc
+
+COCOAPODS: 1.5.3
