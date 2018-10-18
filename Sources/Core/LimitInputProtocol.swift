@@ -33,7 +33,7 @@ import UIKit
 /// - select: 选择
 /// - selectAll: 全选
 /// - delete: 删除
-public enum LimitInputDisableState {
+public enum LimitInputDisableState: Int {
   case none
   case all
   case cut

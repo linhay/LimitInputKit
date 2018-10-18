@@ -129,7 +129,7 @@ extension LimitTextField{
   fileprivate func buildNotifications() {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textField(changed:)),
-                                           name:  UITextField.textDidChangeNotification,
+                                           name:  NSNotification.Name.UITextFieldTextDidChange,
                                            object: nil)
   }
   

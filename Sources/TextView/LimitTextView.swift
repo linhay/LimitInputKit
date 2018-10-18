@@ -37,7 +37,7 @@ public class LimitTextView: UITextView,LimitInputProtocol {
   
   private var inputHelp: LimitTextViewExecutor?
   
-  lazy var placeholderLabel: UILabel = {
+  public lazy var placeholderLabel: UILabel = {
     let item = UILabel()
     item.font = font
     item.numberOfLines = 0
@@ -131,7 +131,7 @@ extension LimitTextView{
   fileprivate func buildNotifications() {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textView(changed:)),
-                                           name: UITextView.textDidChangeNotification,
+                                           name: Notification.Name.UITextViewTextDidChange,
                                            object: nil)
   }
 }
