@@ -15,7 +15,6 @@ class LimitTextFieldViewController: UIViewController {
   @IBOutlet weak var replaceFromTextField: UITextField!
   @IBOutlet weak var replaceToTextField: UITextField!
   
-  @IBOutlet weak var noneBtn: UIButton!
   @IBOutlet weak var allBtn: UIButton!
   @IBOutlet weak var cutBtn: UIButton!
   @IBOutlet weak var copyBtn: UIButton!
@@ -23,6 +22,7 @@ class LimitTextFieldViewController: UIViewController {
   @IBOutlet weak var selectBtn: UIButton!
   @IBOutlet weak var selectAllBtn: UIButton!
   @IBOutlet weak var deleteBtn: UIButton!
+  @IBOutlet weak var shareBtn: UIButton!
   
   @IBOutlet weak var limitTextField: LimitTextField!
   @IBOutlet weak var limitSearchBar: LimitSearchBar!
@@ -32,7 +32,15 @@ class LimitTextFieldViewController: UIViewController {
     }
   }
   
-  lazy var statesBtns = [noneBtn!,allBtn!,cutBtn!,copyBtn!,pasteBtn!,selectBtn!,selectAllBtn!,deleteBtn!]
+  lazy var statesBtns: [UIButton: LimitInputDisableState] = [shareBtn!: .share,
+                                                             allBtn!: .all,
+                                                             cutBtn!: .cut,
+                                                             copyBtn!: .copy,
+                                                             pasteBtn!: .paste,
+                                                             selectBtn!: .select,
+                                                             selectAllBtn!: .selectAll,
+                                                             deleteBtn!: .delete]
+  
   lazy var ruleInputs: [UITextField] = [limitRuleTextField!,replaceFromTextField!, replaceToTextField!]
   lazy var inputs: [LimitInputProtocol] = [limitTextField!,limitSearchBar!, limitTextView!]
   
@@ -47,9 +55,9 @@ class LimitTextFieldViewController: UIViewController {
       let replaceToText = replaceToTextField.text
       else{ return }
     
-    let disableStates = statesBtns.compactMap { (item) -> LimitInputDisableState? in
-      return item.isSelected ? LimitInputDisableState(rawValue: item.tag) : nil
-    }
+    let disableStates = statesBtns.compactMap({ (item) -> LimitInputDisableState? in
+      return item.key.isSelected ? item.value : nil
+    })
     
     let match = LimitInputMatch(rule: { (text) -> Bool in
       return !text.contains(where: { (char) -> Bool in
@@ -78,9 +86,8 @@ class LimitTextFieldViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    statesBtns.enumerated().forEach { (item) in
-      item.element.tag = item.offset
-      item.element.addTarget(self, action: #selector(stateEvent(btn:)), for: UIControl.Event.touchUpInside)
+    statesBtns.keys.forEach { (item) in
+      item.addTarget(self, action: #selector(stateEvent(btn:)), for: UIControl.Event.touchUpInside)
     }
     
   }
