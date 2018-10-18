@@ -34,10 +34,11 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public var matchs: [LimitInputMatch] = LimitInputConfig.matchs
   /// 菜单禁用项
   public var disables: [LimitInputDisableState] = LimitInputConfig.disables
-  
   /// 设置占位文本偏移
   public var placeholderEdgeInsets: UIEdgeInsets = .zero
-  
+  /// 调整至iOS10之前的风格(高度调整)
+  public var isEnbleOldStyleBefore10: Bool = false
+
   /// 历史文本
   var lastText = ""
   
@@ -72,7 +73,7 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public override func layoutSubviews() {
     super.layoutSubviews()
     // fix 10 以上 textField 高度变更
-    if #available(iOS 10,*) {
+    if #available(iOS 10,*), isEnbleOldStyleBefore10 {
       subviews.forEach { (view) in
         view.subviews.forEach({ (subview) in
           if subview is UITextField {
