@@ -37,26 +37,35 @@ public class LimitTextView: UITextView,LimitInputProtocol {
   
   private var inputHelp: LimitTextViewExecutor?
   
+  
+  /// 占位文本控件
   public lazy var placeholderLabel: UILabel = {
     let item = UILabel()
-    item.font = font
     item.numberOfLines = 0
-    item.textColor = UIColor(red: 0, green: 0, blue: 0.1, alpha: 0.22)
-    item.translatesAutoresizingMaskIntoConstraints = false
+    item.font = font
+    item.textColor = UIColor.gray.withAlphaComponent(0.7)
     self.addSubview(item)
-    let views = ["label": item]
-    let hConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|-5-[label]-5-|",
-                                                     options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-                                                     metrics: nil,
-                                                     views: views)
-    
-    let vConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|-3-[label]-5-|",
-                                                     options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-                                                     metrics: nil,
-                                                     views: views)
-    self.addConstraints(hConstraint + vConstraint)
+    self.setValue(item, forKey: "_placeholderLabel")
     return item
   }()
+  
+  /// 占位颜色
+  open var placeholderColor: UIColor{
+    set{ placeholderLabel.textColor = newValue }
+    get{ return placeholderLabel.textColor }
+  }
+  
+  /// 占位富文本
+  open var attributedPlaceholder: NSAttributedString? {
+    set{ placeholderLabel.attributedText = newValue }
+    get{ return placeholderLabel.attributedText }
+  }
+  
+  /// 占位文本
+  open var placeholder: String? {
+    set{ placeholderLabel.text = newValue }
+    get{ return placeholderLabel.text }
+  }
   
   override open var delegate: UITextViewDelegate? {
     get { return inputHelp }
@@ -81,15 +90,8 @@ public class LimitTextView: UITextView,LimitInputProtocol {
   public var lastText = ""{
     didSet{
       if lastText == oldValue { return }
-      placeholderLabel.isHidden = !lastText.isEmpty
       guard wordLimit != Int.max else { return }
     }
-  }
-  
-  /// 占位文字
-  public var placeholder: String?{
-    set{ placeholderLabel.text = newValue }
-    get{ return placeholderLabel.text }
   }
   
   public override init(frame: CGRect, textContainer: NSTextContainer?) {

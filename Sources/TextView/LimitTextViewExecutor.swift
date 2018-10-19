@@ -27,17 +27,11 @@ class LimitTextViewExecutor: LimitInputDelegate, UITextViewDelegate {
   
   @available(iOS 2.0, *)
   func textViewShouldBeginEditing(_ textView: UITextView) -> Bool{
-    if let input = textView as? LimitTextView {
-      input.placeholderLabel.isHidden = true
-    }
     return textInputDelegate?.textViewShouldBeginEditing?(textView) ?? true
   }
   
   @available(iOS 2.0, *)
   public func textViewShouldEndEditing(_ textView: UITextView) -> Bool{
-    if let input = textView as? LimitTextView {
-      input.placeholderLabel.isHidden = !input.lastText.isEmpty
-    }
     return textInputDelegate?.textViewShouldEndEditing?(textView) ?? true
   }
   
@@ -56,7 +50,6 @@ class LimitTextViewExecutor: LimitInputDelegate, UITextViewDelegate {
     if let flag = textInputDelegate?.textView?(textView, shouldChangeTextIn: range, replacementText: text),!flag { return flag }
     guard let input = textView as? LimitTextView else { return true }
     let value = input.shouldChange(input: input, range: range, string: text)
-    print(value)
     return value
   }
   
