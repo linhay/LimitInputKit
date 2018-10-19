@@ -62,10 +62,7 @@ open class LimitTextField: UITextField,LimitInputProtocol {
   }
   
   override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-    if canPerformAction(self, text: text ?? "", action: action) {
-      return super.canPerformAction(action, withSender: sender)
-    }
-    return false
+    return canPerformAction(self, text: text ?? "", action: action) ? super.canPerformAction(action, withSender: sender) : false
   }
   
   public override init(frame: CGRect) {

@@ -35,9 +35,6 @@ public class LimitTextView: UITextView,LimitInputProtocol {
   /// 菜单禁用项
   public var disables: [LimitInputDisableState] = LimitInputConfig.disables
   
-  private var inputHelp: LimitTextViewExecutor?
-  
-  
   /// 占位文本控件
   public lazy var placeholderLabel: UILabel = {
     let item = UILabel()
@@ -66,6 +63,8 @@ public class LimitTextView: UITextView,LimitInputProtocol {
     set{ placeholderLabel.text = newValue }
     get{ return placeholderLabel.text }
   }
+  
+  private var inputHelp: LimitTextViewExecutor?
   
   override open var delegate: UITextViewDelegate? {
     get { return inputHelp }
@@ -109,10 +108,7 @@ public class LimitTextView: UITextView,LimitInputProtocol {
   }
   
   override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-    if canPerformAction(self, text: text, action: action) {
-      return super.canPerformAction(action, withSender: sender)
-    }
-    return false
+    return canPerformAction(self, text: text, action: action) ? super.canPerformAction(action, withSender: sender) : false
   }
   
   //MARK: - Deinitialized
