@@ -25,7 +25,11 @@ class LimitTextFieldViewController: UIViewController {
   @IBOutlet weak var shareBtn: UIButton!
   
   @IBOutlet weak var limitTextField: LimitTextField!
-  @IBOutlet weak var limitSearchBar: LimitSearchBar!
+  @IBOutlet weak var limitSearchBar: LimitSearchBar!{
+    didSet{
+      limitSearchBar.isEnbleOldStyleBefore11 = true
+    }
+  }
   @IBOutlet weak var limitTextView: LimitTextView!{
     didSet{
       limitTextView.placeholder = "limitTextView"

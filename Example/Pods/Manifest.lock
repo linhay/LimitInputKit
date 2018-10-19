@@ -1,13 +1,34 @@
 PODS:
+  - BLFoundation (0.6.0):
+    - BLFoundation/Data (= 0.6.0)
+    - BLFoundation/Date (= 0.6.0)
+    - BLFoundation/Device (= 0.6.0)
+    - BLFoundation/EventBus (= 0.6.0)
+    - BLFoundation/Number (= 0.6.0)
+    - BLFoundation/String (= 0.6.0)
+    - BLFoundation/Thread (= 0.6.0)
+    - BLFoundation/Tools (= 0.6.0)
+    - BLFoundation/URL (= 0.6.0)
+  - BLFoundation/Data (0.6.0)
+  - BLFoundation/Date (0.6.0)
+  - BLFoundation/Device (0.6.0)
+  - BLFoundation/EventBus (0.6.0)
+  - BLFoundation/Number (0.6.0)
+  - BLFoundation/String (0.6.0)
+  - BLFoundation/Thread (0.6.0)
+  - BLFoundation/Tools (0.6.0)
+  - BLFoundation/URL (0.6.0)
   - LimitInputKit (0.0.1)
   - SnapKit (4.0.1)
 
 DEPENDENCIES:
+  - BLFoundation
   - LimitInputKit (from `../`)
   - SnapKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BLFoundation
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -15,9 +36,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  BLFoundation: 2278df52d01b16572c58e585f492efdf7152f8f1
   LimitInputKit: 33b29aa40782ce9983011c02b9c7edd399918506
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: 83c653c95bf8ab14ace47c6d5e25342a8577385c
+PODFILE CHECKSUM: c54d2cd2d04174a189a17751b3390aa50d4060d8
 
 COCOAPODS: 1.5.3

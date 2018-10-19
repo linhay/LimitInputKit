@@ -36,9 +36,65 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public var disables: [LimitInputDisableState] = LimitInputConfig.disables
   /// 设置占位文本偏移
   public var placeholderEdgeInsets: UIEdgeInsets = .zero
-  /// 调整至iOS10之前的风格(高度调整)
-  public var isEnbleOldStyleBefore10: Bool = false
-
+  
+  /// 调整至iOS11之前的风格(高度调整)
+  public var isEnbleOldStyleBefore11: Bool = true{
+    didSet{
+      if #available(iOS 11,*), isEnbleOldStyleBefore11 {
+        let reFont = searchField?.font?.withSize(14)
+        placeholderFont = reFont
+        searchField?.font = reFont
+      }
+    }
+  }
+  
+  /// 占位文字颜色
+  public var placeholderColor: UIColor? {
+    get{
+      guard var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil),
+        let color = attr[NSAttributedStringKey.foregroundColor] as? UIColor else{ return searchField?.textColor }
+      return color
+    }
+    set {
+      guard let placeholder = self.placeholder, let color = newValue else { return }
+      if var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil) {
+        attr[NSAttributedStringKey.foregroundColor] = newValue
+        searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
+        return
+      }
+      
+      let attr = [NSAttributedStringKey.foregroundColor: color]
+      searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
+    }
+  }
+  
+  /// 占位文字字体
+  public var placeholderFont: UIFont? {
+    get{
+      guard var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil),
+        let ft = attr[.font] as? UIFont else{ return searchField?.font }
+      return ft
+    }
+    set {
+      guard let placeholder = self.placeholder, let font = newValue else { return }
+      if var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil) {
+        attr[NSAttributedStringKey.font] = newValue
+        searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
+        return
+      }
+      let attr = [NSAttributedStringKey.font: font]
+      searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
+    }
+  }
+  
+  public override func layoutSubviews() {
+    super.layoutSubviews()
+    guard #available(iOS 11,*), isEnbleOldStyleBefore11, let heightConstraint = self.constraints.first else { return }
+    heightConstraint.constant = isEnbleOldStyleBefore11 ? 44 : 56
+    searchField?.bounds.size.height = isEnbleOldStyleBefore11 ? 28 : 32
+    self.layoutIfNeeded()
+  }
+  
   /// 历史文本
   var lastText = ""
   
@@ -58,7 +114,7 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    buildConfig()
+    delegate = nil
   }
   
   public required init?(coder aDecoder: NSCoder) {
@@ -67,26 +123,7 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   
   public override func awakeFromNib() {
     super.awakeFromNib()
-    buildConfig()
-  }
-  
-  public override func layoutSubviews() {
-    super.layoutSubviews()
-    // fix 10 以上 textField 高度变更
-    if #available(iOS 10,*), isEnbleOldStyleBefore10 {
-      subviews.forEach { (view) in
-        view.subviews.forEach({ (subview) in
-          if subview is UITextField {
-            let con = subview.frame.height - 28
-            subview.frame.origin.y = subview.frame.origin.y + con * 0.5
-            subview.frame.size.height = 28
-          }
-          if subview is UIImageView {
-            subview.removeFromSuperview()
-          }
-        })
-      }
-    }
+    delegate = nil
   }
   
   public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -94,14 +131,3 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   }
   
 }
-
-/// MARK: - Config
-extension LimitSearchBar{
-  
-  func buildConfig() {
-    delegate = nil
-  }
-  
-}
-
-
