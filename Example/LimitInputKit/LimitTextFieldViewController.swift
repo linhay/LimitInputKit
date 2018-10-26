@@ -24,7 +24,12 @@ class LimitTextFieldViewController: UIViewController {
   @IBOutlet weak var deleteBtn: UIButton!
   @IBOutlet weak var shareBtn: UIButton!
   
-  @IBOutlet weak var limitTextField: LimitTextField!
+  @IBOutlet weak var limitTextField: LimitTextField!{
+    didSet{
+      limitTextField.replaces = [LimitInputReplace.init(from: "[666]", of: "😭")]
+    }
+  }
+  
   @IBOutlet weak var limitSearchBar: LimitSearchBar!{
     didSet{
       limitSearchBar.isEnbleOldStyleBefore11 = true

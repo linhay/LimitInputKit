@@ -23,6 +23,16 @@
 
 import UIKit
 
+
+extension UITextInput {
+  var selectedRange: NSRange? {
+    guard let range = self.selectedTextRange else { return nil }
+    let location = offset(from: beginningOfDocument, to: range.start)
+    let length = offset(from: range.start, to: range.end)
+    return NSRange(location: location, length: length)
+  }
+}
+
 public protocol LimitInputProtocol: NSObjectProtocol {
   // 文字过滤与转换 无法保证光标位置
   var filters: [LimitInputFilter] { set get }
@@ -87,33 +97,16 @@ public extension LimitInputProtocol {
   }
   
   func textDidChange(input: UITextInput, text: String, lastText: String, call: (_ result: String) -> ()) {
-    guard input.markedTextRange == nil,let range = input.selectedTextRange else { return }
+    guard input.markedTextRange == nil, let range = input.selectedRange else { return }
+    let filterText = filter(text: text)
+    let replaceResult = replaces(text: filterText, range: range)
+    let result3 = match(text: replaceResult.text) ? replaceResult.text : lastText
     
-    let result1 = filter(text: text)
-    let result2 = match(text: result1) ? result1 : lastText
+    call(result3)
     
-    call(result2)
+    if result3 == text { return }
     
-    if result2 == text {
-      input.selectedTextRange = range
-      return
-    }
-    var offset = 0
-    var compare1 = result2
-    var compare2 = text
-    for _ in 0..<min(result2.count, text.count) {
-      if compare1.removeLast() == compare2.removeLast() {
-        offset -= 1
-      }else{
-        break
-      }
-    }
-    
-    if offset >= 0 {
-      input.selectedTextRange = range
-      return
-    }
-    let preStr = result2[...String.Index(encodedOffset: result2.count + offset)]
+    let preStr = result3[...String.Index(encodedOffset: replaceResult.range.location)]
     /// utf16: emoji 字符为 utf8
     guard let start = input.position(from: input.beginningOfDocument, offset: preStr.utf16.count) else{ return }
     input.selectedTextRange = input.textRange(from: start, to: start)
@@ -124,18 +117,111 @@ public extension LimitInputProtocol {
     guard input.markedTextRange == nil,
       let allRange = input.textRange(from: input.beginningOfDocument, to: input.endOfDocument),
       let text = input.text(in: allRange) else { return true }
-    let inputStr = filter(text: string)
-    let endStr = getAfterInputText(string: text, text: string, range: range)
-    if !match(text: endStr) { return false }
+    
+    let finishText = getAfterInputText(string: text, text: string, range: range)
+    let filterText = filter(text: finishText)
+    let replaceResult = replaces(text: filterText, range: range)
+    
+    if !match(text: replaceResult.text) { return false }
     // 处理字符限制
-    if endStr.count > wordLimit { return false }
+    if replaceResult.text.count > wordLimit { return false }
     // 处理第三方键盘候选词输入/粘贴
-    if inputStr != string,range.length != 0 { return false }
+    // if inputStr != string,range.length != 0 { return false }
     return true
   }
   
 }
 
+public extension LimitInputProtocol {
+  
+  func replaces(text: String,range: NSRange) -> (text: String, range: NSRange) {
+    var range = range
+    var text = text
+    for item in replaces {
+      let res = split(replace: item, text: text, range: range)
+      range = reviseRange(replace: item, indexs: res.indexs, pointIndex: res.pointIndex, range: range)
+      text = reviseText(replace: item, substrings: res.substrings, indexs: res.indexs)
+    }
+    
+    return (text,range)
+  }
+  
+  // 修正文本内容位置
+  func reviseText(replace: LimitInputReplace, substrings: [String],indexs: [Int]) -> String {
+    var substrings = substrings
+    for index in indexs {
+      substrings[index] = replace.value
+    }
+    return substrings.joined()
+  }
+  
+  // 修正光标位置
+  func reviseRange(replace: LimitInputReplace,indexs: [Int], pointIndex: Int, range: NSRange) -> NSRange {
+    var flag = 0
+    for item in indexs {
+      if item > pointIndex { break }
+      flag += 1
+    }
+    let point = range.location + range.length
+    let offset = replace.offset * flag
+    return NSRange(location: point + offset, length: 0)
+  }
+  
+  // 文本预处理
+  func split( replace: LimitInputReplace, text: String, range: NSRange) -> (substrings: [String],indexs: [Int],pointIndex: Int) {
+    /// 缓冲标志位
+    var flag = false
+    /// 文本分割数组
+    var substrings = [String]()
+    /// 不需要替换缓冲数据
+    var buffer = [Character]()
+    /// 需要替换缓冲数据
+    var keybuffer = [Character]()
+    /// 需要替换元素标志位
+    var indexs = [Int]()
+    /// 光标位于元素标志位
+    var pointIndex = -1
+    /// 光标末尾位置
+    let point = range.location + range.length
+    
+    text.enumerated().forEach { (element) in
+      let index = element.offset
+      let char = element.element
+      if char == replace.key.first { flag = true }
+      if index == point - 1, !substrings.isEmpty { pointIndex = substrings.count }
+      
+      if keybuffer.count >= replace.chars.count {
+        if !buffer.isEmpty { substrings.append(String(buffer)) }
+        
+        substrings.append(String(keybuffer))
+        indexs.append(substrings.count - 1)
+        buffer.removeAll()
+        keybuffer.removeAll()
+      }
+      
+      if flag, char == replace.chars[keybuffer.count] {
+        keybuffer.append(char)
+      }else{
+        flag = false
+        buffer += keybuffer
+        buffer.append(char)
+        keybuffer.removeAll()
+      }
+    }
+    
+    if keybuffer == replace.chars {
+      if !buffer.isEmpty { substrings.append(String(buffer)) }
+      substrings.append(String(keybuffer))
+      indexs.append(substrings.count - 1)
+   }else{
+      substrings.append(String(buffer + keybuffer))
+    }
+    
+    if indexs.isEmpty || pointIndex == -1 { pointIndex = point }
+    return (substrings,indexs,pointIndex)
+  }
+  
+}
 public extension LimitInputProtocol {
   
   /// 判断输入是否合法的
