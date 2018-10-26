@@ -208,8 +208,7 @@ public extension LimitInputProtocol {
   public func shouldChange(input: UITextInput, range: NSRange, string: String) -> Bool {
     if string.isEmpty { return true }
     guard input.markedTextRange == nil,
-      let allRange = input.textRange(from: input.beginningOfDocument,
-                                     to: input.endOfDocument),
+      let allRange = input.textRange(from: input.beginningOfDocument, to: input.endOfDocument),
       let text = input.text(in: allRange) else { return true }
     let inputStr = filter(text: string)
     let endStr = getAfterInputText(string: text, text: string, range: range)

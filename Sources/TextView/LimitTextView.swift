@@ -25,15 +25,15 @@ import UIKit
 
 public class LimitTextView: UITextView,LimitInputProtocol {
   /// 字数限制
-  public var wordLimit: Int = LimitInputConfig.wordLimit
+  public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
-  public var overWordLimitEvent: ((String) -> ())? = LimitInputConfig.overWordLimitEvent
+  public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   /// 文字过滤与转换
-  public var filters: [LimitInputFilter] = LimitInputConfig.filters
+  public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
-  public var matchs: [LimitInputMatch] = LimitInputConfig.matchs
+  public var matchs: [LimitInputMatch] = LimitInput.matchs
   /// 菜单禁用项
-  public var disables: [LimitInputDisableState] = LimitInputConfig.disables
+  public var disables: [LimitInputDisableState] = LimitInput.disables
   
   /// 占位文本控件
   public lazy var placeholderLabel: UILabel = {

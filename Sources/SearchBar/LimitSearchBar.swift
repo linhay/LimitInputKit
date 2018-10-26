@@ -25,15 +25,15 @@ import UIKit
 
 public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   /// 字数限制
-  public var wordLimit: Int = LimitInputConfig.wordLimit
+  public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
-  public var overWordLimitEvent: ((String) -> ())? = LimitInputConfig.overWordLimitEvent
+  public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   /// 文字过滤与转换
-  public var filters: [LimitInputFilter] = LimitInputConfig.filters
+  public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
-  public var matchs: [LimitInputMatch] = LimitInputConfig.matchs
+  public var matchs: [LimitInputMatch] = LimitInput.matchs
   /// 菜单禁用项
-  public var disables: [LimitInputDisableState] = LimitInputConfig.disables
+  public var disables: [LimitInputDisableState] = LimitInput.disables
   /// 设置占位文本偏移
   public var placeholderEdgeInsets: UIEdgeInsets = .zero
   
@@ -44,6 +44,7 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
         let reFont = searchField?.font?.withSize(14)
         placeholderFont = reFont
         searchField?.font = reFont
+        self.barStyle = .default
       }
     }
   }
@@ -89,10 +90,15 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   
   public override func layoutSubviews() {
     super.layoutSubviews()
-    guard #available(iOS 11,*), isEnbleOldStyleBefore11, let heightConstraint = self.constraints.first else { return }
+    guard #available(iOS 11,*), isEnbleOldStyleBefore11 else { return }
+    guard let heightConstraint = self.constraints.first, let searchField = searchField else { return }
     heightConstraint.constant = isEnbleOldStyleBefore11 ? 44 : 56
-    searchField?.bounds.size.height = isEnbleOldStyleBefore11 ? 28 : 32
     self.layoutIfNeeded()
+    // 自定义高度
+    if searchField.bounds.size.height != (isEnbleOldStyleBefore11 ? 28 : 32) { return }
+    // 未自定义
+    searchField.bounds.size.height = isEnbleOldStyleBefore11 ? 28 : 32
+    searchField.frame.origin.y = (self.bounds.height - searchField.bounds.height) * 0.5
   }
   
   /// 历史文本

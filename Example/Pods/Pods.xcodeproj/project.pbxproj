@@ -81,7 +81,7 @@
 		E43F271D712BE1F2F9AE6A4638217289 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392CE54D012F06D82926B6D54688A1E8 /* Int.swift */; };
 		E5D6500B241B65627D69F9EB7387B424 /* BLFoundation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F396F598B9E93A55188F734BEB30313 /* BLFoundation-dummy.m */; };
 		EBC4D9C94635FF4D5D15112122F455E7 /* ConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10844D35BEDD03B51C45E2C30ED1493D /* ConstraintView.swift */; };
-		EE63A05B84A9A09D75EEEC4F10252787 /* LimitInputConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInputConfig.swift */; };
+		EE63A05B84A9A09D75EEEC4F10252787 /* LimitInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInput.swift */; };
 		EE6565D76A1F920F7352CAF2623496AD /* LimitInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3957DA006F8564A407F00FF41A262CD /* LimitInputProtocol.swift */; };
 		EE9C2DE8429BE0FA8862CF9A60692A34 /* ConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851EF7CCEE6AA4DBFC5C58AE5EFFBEA /* ConstraintDSL.swift */; };
 		F02B891E3F0B5C34CD8582F05A531E31 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1090AED8590463EC8C8D50383EC6B824 /* Device.swift */; };
@@ -130,11 +130,11 @@
 		18025DE5EFE3CA29500246332B4DC263 /* Constraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constraint.swift; path = Source/Constraint.swift; sourceTree = "<group>"; };
 		1F396F598B9E93A55188F734BEB30313 /* BLFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BLFoundation-dummy.m"; sourceTree = "<group>"; };
 		1FC6CA59314EE30128C87C67529736A7 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Source/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
-		215598B8FB22A9B35FF8DCEC8A751572 /* LimitInputKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LimitInputKit.framework; path = LimitInputKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		215598B8FB22A9B35FF8DCEC8A751572 /* LimitInputKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LimitInputKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		251CC3FD6EE90ECEE2F5FFC66637F2D6 /* Bool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bool.swift; path = Sources/Number/Bool.swift; sourceTree = "<group>"; };
 		270EAB29BFCCEC864D5D485B2CCA5024 /* Pods-LimitInputKit_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LimitInputKit_Example-frameworks.sh"; sourceTree = "<group>"; };
 		27B2A6388178FE57FD652924DAD47AF6 /* Pods-LimitInputKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LimitInputKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		2EFE6AA588D6E40939C5D8EAA8046151 /* Pods_LimitInputKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_LimitInputKit_Example.framework; path = "Pods-LimitInputKit_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EFE6AA588D6E40939C5D8EAA8046151 /* Pods_LimitInputKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LimitInputKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F639D3E5BB4E1777DBB951C08AE3852 /* LimitInputKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LimitInputKit-umbrella.h"; sourceTree = "<group>"; };
 		322CB882CA45912E1C32FCB02F017F4B /* ConstraintLayoutGuideDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuideDSL.swift; path = Source/ConstraintLayoutGuideDSL.swift; sourceTree = "<group>"; };
 		33ECBDC2832B001168C835A44609C3E8 /* Pods-LimitInputKit_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-LimitInputKit_Example-dummy.m"; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		54965929ABA7A5463304E83FE3713503 /* Regex+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Regex+Extension.swift"; path = "Sources/String/Regex+Extension.swift"; sourceTree = "<group>"; };
 		589923EB9283C7261B77BDDDC8ED5FAC /* SnapKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-umbrella.h"; sourceTree = "<group>"; };
 		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5A5F19D23945BECE1A6713D53EBD43F7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		5A5F19D23945BECE1A6713D53EBD43F7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5AED10832DAABD6651CBD0027043B31A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B79567544E3B724A45AEDF107972037 /* ConstraintMakerPriortizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPriortizable.swift; path = Source/ConstraintMakerPriortizable.swift; sourceTree = "<group>"; };
 		5DFFC17640A215F26BBE30E94476D6C9 /* Debugging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debugging.swift; path = Source/Debugging.swift; sourceTree = "<group>"; };
@@ -177,10 +177,10 @@
 		915FDF89FA0A07EC3F7ECBB4CE427F48 /* WeakBox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WeakBox.swift; path = Sources/Data/WeakBox.swift; sourceTree = "<group>"; };
 		91C8BBF62C4606AA4FCC1D7A69D2BC29 /* LimitInputDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitInputDelegate.swift; sourceTree = "<group>"; };
 		9365B25E7F6481D761756063E74C01AC /* LimitSearchBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitSearchBar.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93BFB003D56422BA401ABE7A02E7BAFC /* String+extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+extension.swift"; path = "Sources/String/String+extension.swift"; sourceTree = "<group>"; };
 		9A2F5AD8E3A2501CF7671BEF0EF89B84 /* ConstraintItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintItem.swift; path = Source/ConstraintItem.swift; sourceTree = "<group>"; };
-		9F259C6812DF49FF6E8E9F450DEACDDC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		9F259C6812DF49FF6E8E9F450DEACDDC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9F3ABEFF02C5DCD27B6880DB6C35DBD1 /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Source/Typealiases.swift; sourceTree = "<group>"; };
 		A07CC5F3AD1982390562FD3456AEC16D /* WeakArray.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WeakArray.swift; path = Sources/Data/WeakArray.swift; sourceTree = "<group>"; };
 		A36715CEA96E5C9A98D886591D56D252 /* LimitTextFieldExecutor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitTextFieldExecutor.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 		B87A239FDA3233046A70FF4DF0256FEF /* ConstraintPriorityTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintPriorityTarget.swift; path = Source/ConstraintPriorityTarget.swift; sourceTree = "<group>"; };
 		BCD309EEB9BBAC4FDF0C8A66C24741B9 /* Dictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Dictionary.swift; path = Sources/Data/Dictionary.swift; sourceTree = "<group>"; };
 		C08835D30E100DA01876E40AB6D95BAC /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Source/ConstraintMaker.swift; sourceTree = "<group>"; };
-		C1EA294B03E457E1F1EA57311B437EC5 /* BLFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BLFoundation.framework; path = BLFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1EA294B03E457E1F1EA57311B437EC5 /* BLFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BLFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2ACC91834E692F099CC278850B0C48C /* NSObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSObject.swift; path = Sources/Data/NSObject.swift; sourceTree = "<group>"; };
 		C2D3AC0EC7938A523D009E464EAE1EB7 /* ConstraintConstantTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConstantTarget.swift; path = Source/ConstraintConstantTarget.swift; sourceTree = "<group>"; };
 		C44702EC8AEE8F216BC1B19535085430 /* Coder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Coder.swift; path = Sources/Data/Coder.swift; sourceTree = "<group>"; };
@@ -205,14 +205,14 @@
 		D0105E49109F96B0713E7683C4C7BBF1 /* Character.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Character.swift; path = Sources/String/Character.swift; sourceTree = "<group>"; };
 		DA11F28B68180EED4A9989C7555BB4F9 /* ConstraintConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintConfig.swift; path = Source/ConstraintConfig.swift; sourceTree = "<group>"; };
 		DC11AECCCAF0E14DD9D6DE68E23A3E2B /* Pods-LimitInputKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-LimitInputKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		DC5CEC0F3D0A010A511C80F452919805 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC5CEC0F3D0A010A511C80F452919805 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF7B0B9C88F4428899CF70E2C6C91BDD /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerRelatable.swift; path = Source/ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
 		E02E3558D6294D4E78EBAD6E778A6C8F /* ConstraintLayoutGuide+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintLayoutGuide+Extensions.swift"; path = "Source/ConstraintLayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
-		E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInputConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitInputConfig.swift; sourceTree = "<group>"; };
+		E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitInput.swift; sourceTree = "<group>"; };
 		E1CBE421277B1D3D5B90575B29C79B1C /* LimitInputKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LimitInputKit-prefix.pch"; sourceTree = "<group>"; };
 		E3957DA006F8564A407F00FF41A262CD /* LimitInputProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitInputProtocol.swift; sourceTree = "<group>"; };
 		E409ECA0BCD71EC71BBCCF8078DE5EA5 /* SnapKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SnapKit-prefix.pch"; sourceTree = "<group>"; };
-		E778C00BD7E0912839455D1DF9E3BE40 /* LimitInputKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = LimitInputKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E778C00BD7E0912839455D1DF9E3BE40 /* LimitInputKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = LimitInputKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		EA081C0B6C83F1C8FABA45F3F0D40748 /* LimitTextView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LimitTextView.swift; sourceTree = "<group>"; };
 		EBFC9A13C79E6E59791AFD5183D51D64 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED5AC9DC114A7382CA2BEAFE43DDAA4F /* String+MD5.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+MD5.swift"; path = "Sources/String/String+MD5.swift"; sourceTree = "<group>"; };
@@ -304,7 +304,7 @@
 		1E9721F53E50E89F27A6776D49F9E83E /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInputConfig.swift */,
+				E1A8FD3249DEA2B85F4D25EFB212349A /* LimitInput.swift */,
 				91C8BBF62C4606AA4FCC1D7A69D2BC29 /* LimitInputDelegate.swift */,
 				E3957DA006F8564A407F00FF41A262CD /* LimitInputProtocol.swift */,
 			);
@@ -382,7 +382,6 @@
 				DA7F247BFC53D2E97715B252383CF9E8 /* Tools */,
 				081E66D95397F831D269DA46621E6A81 /* URL */,
 			);
-			name = BLFoundation;
 			path = BLFoundation;
 			sourceTree = "<group>";
 		};
@@ -441,7 +440,6 @@
 				A885597061E9F8EEE606E5E36C987D25 /* UILayoutSupport+Extensions.swift */,
 				061680E8462904034DF9306C7E4485F2 /* Support Files */,
 			);
-			name = SnapKit;
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
@@ -780,7 +778,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE63A05B84A9A09D75EEEC4F10252787 /* LimitInputConfig.swift in Sources */,
+				EE63A05B84A9A09D75EEEC4F10252787 /* LimitInput.swift in Sources */,
 				76C6DD0CD5C5C4EA93DBD56FB0D5A46A /* LimitInputDelegate.swift in Sources */,
 				1D78149BF7458AC7BD3004B0BF021C31 /* LimitInputKit-dummy.m in Sources */,
 				EE6565D76A1F920F7352CAF2623496AD /* LimitInputProtocol.swift in Sources */,
@@ -957,8 +955,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1119,8 +1116,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1153,8 +1149,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1249,8 +1244,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
