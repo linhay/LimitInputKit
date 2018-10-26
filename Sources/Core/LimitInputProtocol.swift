@@ -23,101 +23,18 @@
 
 import UIKit
 
-
-
-/// 禁用状态
-///
-/// - all: 全部禁用
-/// - cut: 剪切
-/// - copy: 复制
-/// - paste: 粘贴
-/// - select: 选择
-/// - selectAll: 全选
-/// - delete: 删除
-/// - makeTextWritingDirectionLeftToRight: 改变书写模式为从左向右按
-/// - makeTextWritingDirectionRightToLeft: 改变书写模式为从右向左按钮
-/// - toggleBoldface: 切换字体为黑体(粗体)
-/// - toggleItalics: 切换字体为斜体
-/// - toggleUnderline: 给文字添加下划线
-/// - increaseSize: 增加字体大小
-/// - decreaseSize: 减小字体大小
-/// - promptForReplace: 替换
-/// - transliterateChinese: 简体繁体转换
-/// - insertDrawing: insertDrawing description
-/// - showTextStyleOptions: 文字风格
-/// - lookup: 查找來源
-/// - define: 定义
-/// - addShortcut: 添加捷径
-/// - accessibilitySpeak: 朗读
-/// - accessibilitySpeakLanguageSelection: 语言选择按钮
-/// - accessibilityPauseSpeaking: 暂停朗读
-/// - share: 分享
-public enum LimitInputDisableState: String {
-  case all
-  case cut = "cut:"
-  case copy = "copy:"
-  case paste = "paste:"
-  case select = "select:"
-  case selectAll = "selectAll:"
-  case delete = "delete:"
-  case makeTextWritingDirectionLeftToRight = "makeTextWritingDirectionLeftToRight:"
-  case makeTextWritingDirectionRightToLeft = "makeTextWritingDirectionRightToLeft:"
-  case toggleBoldface = "toggleBoldface:"
-  case toggleItalics = "toggleItalics:"
-  case toggleUnderline = "toggleUnderline:"
-  case increaseSize = "increaseSize:"
-  case decreaseSize = "decreaseSize:"
-  case promptForReplace = "_promptForReplace:"
-  case transliterateChinese = "_transliterateChinese:"
-  case insertDrawing = "_insertDrawing:"
-  case showTextStyleOptions = "_showTextStyleOptions:"
-  case lookup = "_lookup:"
-  case define = "_define:"
-  case addShortcut = "_addShortcut:"
-  case accessibilitySpeak = "_accessibilitySpeak:"
-  case accessibilitySpeakLanguageSelection = "_accessibilitySpeakLanguageSelection:"
-  case accessibilityPauseSpeaking = "_accessibilityPauseSpeaking:"
-  case share = "_share:"
-}
-
-
-
-public struct LimitInputFilter {
-  var code: (_ text: String) -> String
-  public init(rule: @escaping (_ text: String) -> String) {
-    self.code = rule
-  }
-}
-
-public struct LimitInputMatch {
-  var code: (_ text: String) -> Bool
-  public init(rule: @escaping (_ text: String) -> Bool) {
-    self.code = rule
-  }
-  
-  public init(regex: String) {
-    self.init { (text) -> Bool in
-      do {
-        let reg = try NSRegularExpression(pattern: regex, options: .caseInsensitive)
-        return !reg.matches(in: text, options: [], range: NSMakeRange(0, text.utf16.count)).isEmpty
-      }catch{
-        return true
-      }
-    }
-  }
-}
-
-
 public protocol LimitInputProtocol: NSObjectProtocol {
-  /// 文字过滤与转换
+  // 文字过滤与转换 无法保证光标位置
   var filters: [LimitInputFilter] { set get }
-  /// 判断输入是否合法的
+  // 判断输入是否合法的
   var matchs: [LimitInputMatch] { set get }
-  /// 字数限制
+  // 文本替换 保证光标位置
+  var replaces: [LimitInputReplace] { set get }
+  // 字数限制
   var wordLimit: Int { set get }
-  /// 菜单禁用项
+  // 菜单禁用项
   var disables: [LimitInputDisableState] { set get }
-  /// 超过字数限制
+  // 超过字数限制
   var overWordLimitEvent: ((_ text: String)->())? { set get }
 }
 
@@ -169,10 +86,7 @@ public extension LimitInputProtocol {
     return result
   }
   
-  func textDidChange(input: UITextInput,
-                     text: String,
-                     lastText: String,
-                     call: (_ result: String) -> ()) {
+  func textDidChange(input: UITextInput, text: String, lastText: String, call: (_ result: String) -> ()) {
     guard input.markedTextRange == nil,let range = input.selectedTextRange else { return }
     
     let result1 = filter(text: text)

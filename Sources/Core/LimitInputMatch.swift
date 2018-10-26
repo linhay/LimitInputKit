@@ -23,18 +23,20 @@
 
 import UIKit
 
-public struct LimitInput {
-  // 字数限制
-  public static var wordLimit: Int = Int.max
-  // 文本替换 保证光标位置
-  public static var replaces: [LimitInputReplace] = []
-  // 文字过滤与转换 无法保证光标位置
-  public static var filters: [LimitInputFilter] = []
-  // 判断输入是否合法的
-  public static var matchs: [LimitInputMatch] = []
-  // 菜单禁用项
-  public static var disables: [LimitInputDisableState] = []
-  // 文字超出字符限制事件
-  public static var overWordLimitEvent: ((_ text: String)->())? = nil
+public struct LimitInputMatch {
+  var code: (_ text: String) -> Bool
+  public init(rule: @escaping (_ text: String) -> Bool) {
+    self.code = rule
+  }
+  
+  public init(regex: String) {
+    self.init { (text) -> Bool in
+      do {
+        let reg = try NSRegularExpression(pattern: regex, options: .caseInsensitive)
+        return !reg.matches(in: text, options: [], range: NSMakeRange(0, text.utf16.count)).isEmpty
+      }catch{
+        return true
+      }
+    }
+  }
 }
-

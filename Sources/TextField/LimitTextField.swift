@@ -25,10 +25,13 @@ import UIKit
 
 @IBDesignable
 open class LimitTextField: UITextField,LimitInputProtocol {
+  
   /// 字数限制
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
+  /// 文字替换
+  public var replaces: [LimitInputReplace] = LimitInput.replaces
   /// 文字过滤与转换
   public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的

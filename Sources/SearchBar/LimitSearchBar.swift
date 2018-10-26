@@ -28,6 +28,8 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
+  /// 文字替换
+  public var replaces: [LimitInputReplace] = LimitInput.replaces
   /// 文字过滤与转换
   public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
@@ -48,6 +50,9 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
       }
     }
   }
+  
+  /// 是否sz设置过iOS11之前的风格
+  var isSetedOldStyleBefore11 = false
   
   /// 占位文字颜色
   public var placeholderColor: UIColor? {
@@ -94,11 +99,11 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
     guard let heightConstraint = self.constraints.first, let searchField = searchField else { return }
     heightConstraint.constant = isEnbleOldStyleBefore11 ? 44 : 56
     self.layoutIfNeeded()
-    // 自定义高度
-    if searchField.bounds.size.height != (isEnbleOldStyleBefore11 ? 28 : 32) { return }
-    // 未自定义
+
+    if isSetedOldStyleBefore11 { return }
     searchField.bounds.size.height = isEnbleOldStyleBefore11 ? 28 : 32
     searchField.frame.origin.y = (self.bounds.height - searchField.bounds.height) * 0.5
+    isSetedOldStyleBefore11 = true
   }
   
   /// 历史文本

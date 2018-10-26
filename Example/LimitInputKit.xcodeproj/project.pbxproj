@@ -196,7 +196,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BLFoundation/BLFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/LimitInputKit/LimitInputKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -211,7 +211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6330120AF79361C91C687C63 /* [CP] Check Pods Manifest.lock */ = {
