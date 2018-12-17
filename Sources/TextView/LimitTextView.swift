@@ -131,7 +131,7 @@ extension LimitTextView{
   fileprivate func buildNotifications() {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textView(changed:)),
-                                           name: Notification.Name.UITextViewTextDidChange,
+                                           name: UITextView.textDidChangeNotification,
                                            object: nil)
   }
 }

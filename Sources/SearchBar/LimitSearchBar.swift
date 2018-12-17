@@ -58,18 +58,18 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public var placeholderColor: UIColor? {
     get{
       guard var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil),
-        let color = attr[NSAttributedStringKey.foregroundColor] as? UIColor else{ return searchField?.textColor }
+        let color = attr[NSAttributedString.Key.foregroundColor] as? UIColor else{ return searchField?.textColor }
       return color
     }
     set {
       guard let placeholder = self.placeholder, let color = newValue else { return }
       if var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil) {
-        attr[NSAttributedStringKey.foregroundColor] = newValue
+        attr[NSAttributedString.Key.foregroundColor] = newValue
         searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
         return
       }
       
-      let attr = [NSAttributedStringKey.foregroundColor: color]
+      let attr = [NSAttributedString.Key.foregroundColor: color]
       searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
     }
   }
@@ -84,11 +84,11 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
     set {
       guard let placeholder = self.placeholder, let font = newValue else { return }
       if var attr = searchField?.attributedPlaceholder?.attributes(at: 0, effectiveRange: nil) {
-        attr[NSAttributedStringKey.font] = newValue
+        attr[NSAttributedString.Key.font] = newValue
         searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
         return
       }
-      let attr = [NSAttributedStringKey.font: font]
+      let attr = [NSAttributedString.Key.font: font]
       searchField?.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attr)
     }
   }
