@@ -25,17 +25,28 @@ import UIKit
 
 
 extension UITextInput {
+  
   var selectedRange: NSRange? {
-    guard let range = self.selectedTextRange else { return nil }
-    let location = offset(from: beginningOfDocument, to: range.start)
-    let length = offset(from: range.start, to: range.end)
-    return NSRange(location: location, length: length)
+    set {
+      let beginning = beginningOfDocument
+      guard let range = newValue,
+        let start = position(from: beginning, offset: range.location),
+        let end = position(from: beginning, offset: range.location + range.length)
+        else { return }
+      let selectionRange = textRange(from: start, to: end)
+      self.selectedTextRange = selectionRange
+    }
+    get {
+      guard let range = self.selectedTextRange else { return nil }
+      let location = offset(from: beginningOfDocument, to: range.start)
+      let length = offset(from: range.start, to: range.end)
+      return NSRange(location: location, length: length)
+    }
   }
+  
 }
 
 public protocol LimitInputProtocol: NSObjectProtocol {
-  // 文字过滤与转换 无法保证光标位置
-  var filters: [LimitInputFilter] { set get }
   // 判断输入是否合法的
   var matchs: [LimitInputMatch] { set get }
   // 文本替换 保证光标位置
@@ -46,9 +57,16 @@ public protocol LimitInputProtocol: NSObjectProtocol {
   var disables: [LimitInputDisableState] { set get }
   // 超过字数限制
   var overWordLimitEvent: ((_ text: String)->())? { set get }
+  
+  var preIR: IR? { set get }
 }
 
-public extension LimitInputProtocol {
+public struct IR {
+  let text: String
+  let range: NSRange
+}
+
+extension LimitInputProtocol {
   
   /// 获取输入后文本
   ///
@@ -56,9 +74,10 @@ public extension LimitInputProtocol {
   ///   - string: 原有字符串
   ///   - text: 插入字符
   ///   - range: 插入字符范围
-  /// - Returns: 处理后文本
-  public func getAfterInputText(string: String,text: String,range: NSRange) -> String {
+  /// - Returns: 处理后文本与光标位置
+  func getAfterInputText(string: String, text: String, range: NSRange) -> IR {
     var result = string
+    var range = range
     // 删除操作
     switch text.isEmpty {
     case true:
@@ -66,14 +85,18 @@ public extension LimitInputProtocol {
       let endIndex = String.Index(encodedOffset: range.location + range.length)
       // 全选删除
       if startIndex <= result.startIndex {
+        range.location = 0
+        range.length = 0
         result = String(result[endIndex..<result.endIndex])
       }
         // 尾部删除
       else if endIndex >= result.endIndex {
+        range.location -= text.utf16.count
         result = String(result[result.startIndex...startIndex])
       }
         // 局部删除
       else{
+        range.length = 0
         result = String(result[result.startIndex...startIndex]) + String(result[endIndex..<result.endIndex])
       }
     case false:
@@ -82,143 +105,80 @@ public extension LimitInputProtocol {
       let endIndex = String.Index(encodedOffset: range.location + range.length)
       // 头部添加
       if startIndex <= result.startIndex, range.length == 0 {
+        range.location += text.utf16.count
         result = text + result
       }
         // 尾部添加
       else if endIndex >= result.endIndex, range.length == 0 {
+        range.location += text.utf16.count
         result = result + text
       }
         // 局部替换
       else{
+        range.length = text.utf16.count
         result = String(result[result.startIndex..<startIndex]) + text + String(result[endIndex..<result.endIndex])
       }
     }
-    return result
+    return IR(text: result, range: range)
   }
   
-  func textDidChange(input: UITextInput, text: String, lastText: String, call: (_ result: String) -> ()) {
-    guard input.markedTextRange == nil, let range = input.selectedRange else { return }
-    let filterText = filter(text: text)
-    let replaceResult = replaces(text: filterText, range: range)
-    let result3 = match(text: replaceResult.text) ? replaceResult.text : lastText
-    
-    call(result3)
-    
-    if result3 == text { return }
-    
-    let preStr = result3[...String.Index(encodedOffset: replaceResult.range.location)]
-    /// utf16: emoji 字符为 utf8
-    guard let start = input.position(from: input.beginningOfDocument, offset: preStr.utf16.count) else{ return }
-    input.selectedTextRange = input.textRange(from: start, to: start)
+  
+  /// 文本输入完成后处理
+  ///
+  /// - Parameters:
+  ///   - input: 输入控件
+  ///   - text: 文本
+  func textDidChange(input: UITextInput, text: String) -> IR? {
+    guard input.markedTextRange == nil, let range = input.selectedRange else { return nil }
+    let ir1 = replaces(ir: IR(text: text, range: range))
+    let ir2 = match(text: ir1.text) ? ir1 : self.preIR ?? IR(text: "", range: NSRange(location: 0, length: 0))
+    if self.preIR?.text == ir2.text { return self.preIR }
+    return ir2
   }
   
+  /// 文本输入前处理
+  ///
+  /// - Parameters:
+  ///   - input: 输入控件
+  ///   - range: 插入位置
+  ///   - string: 待输入文本
+  /// - Returns: 能否输入
   public func shouldChange(input: UITextInput, range: NSRange, string: String) -> Bool {
     if string.isEmpty { return true }
     guard input.markedTextRange == nil,
       let allRange = input.textRange(from: input.beginningOfDocument, to: input.endOfDocument),
       let text = input.text(in: allRange) else { return true }
     
-    let finishText = getAfterInputText(string: text, text: string, range: range)
-    let filterText = filter(text: finishText)
-    let replaceResult = replaces(text: filterText, range: range)
+    let ir1 = getAfterInputText(string: text, text: string, range: range)
+    let ir2 = replaces(ir: ir1)
     
-    if !match(text: replaceResult.text) { return false }
+    if !match(text: ir2.text) { return false }
     // 处理字符限制
-    if replaceResult.text.count > wordLimit { return false }
-    // 处理第三方键盘候选词输入/粘贴
-    // if inputStr != string,range.length != 0 { return false }
+    if ir2.text.count > wordLimit { return false }
+    
+    self.preIR = ir1
     return true
   }
   
 }
 
-public extension LimitInputProtocol {
+extension LimitInputProtocol {
   
-  func replaces(text: String,range: NSRange) -> (text: String, range: NSRange) {
-    var range = range
-    var text = text
+  func replaces(ir: IR) -> IR {
+    if self.replaces.isEmpty { return ir }
+    var text = ir.text
+    var range = ir.range
+    var offset = 0
+    
     for item in replaces {
-      let res = split(replace: item, text: text, range: range)
-      range = reviseRange(replace: item, indexs: res.indexs, pointIndex: res.pointIndex, range: range)
-      text = reviseText(replace: item, substrings: res.substrings, indexs: res.indexs)
+      let list = text.components(separatedBy: item.key)
+      guard list.count > 1 else { continue }
+      offset += list.count * (item.value.utf16.count - item.key.utf16.count)
+      text = list.joined(separator: item.value)
     }
     
-    return (text,range)
-  }
-  
-  // 修正文本内容位置
-  func reviseText(replace: LimitInputReplace, substrings: [String],indexs: [Int]) -> String {
-    var substrings = substrings
-    for index in indexs {
-      substrings[index] = replace.value
-    }
-    return substrings.joined()
-  }
-  
-  // 修正光标位置
-  func reviseRange(replace: LimitInputReplace,indexs: [Int], pointIndex: Int, range: NSRange) -> NSRange {
-    var flag = 0
-    for item in indexs {
-      if item > pointIndex { break }
-      flag += 1
-    }
-    let point = range.location + range.length
-    let offset = replace.offset * flag
-    return NSRange(location: point + offset, length: 0)
-  }
-  
-  // 文本预处理
-  func split( replace: LimitInputReplace, text: String, range: NSRange) -> (substrings: [String],indexs: [Int],pointIndex: Int) {
-    /// 缓冲标志位
-    var flag = false
-    /// 文本分割数组
-    var substrings = [String]()
-    /// 不需要替换缓冲数据
-    var buffer = [Character]()
-    /// 需要替换缓冲数据
-    var keybuffer = [Character]()
-    /// 需要替换元素标志位
-    var indexs = [Int]()
-    /// 光标位于元素标志位
-    var pointIndex = -1
-    /// 光标末尾位置
-    let point = range.location + range.length
-    
-    text.enumerated().forEach { (element) in
-      let index = element.offset
-      let char = element.element
-      if char == replace.key.first { flag = true }
-      if index == point - 1, !substrings.isEmpty { pointIndex = substrings.count }
-      
-      if keybuffer.count >= replace.chars.count {
-        if !buffer.isEmpty { substrings.append(String(buffer)) }
-        
-        substrings.append(String(keybuffer))
-        indexs.append(substrings.count - 1)
-        buffer.removeAll()
-        keybuffer.removeAll()
-      }
-      
-      if flag, char == replace.chars[keybuffer.count] {
-        keybuffer.append(char)
-      }else{
-        flag = false
-        buffer += keybuffer
-        buffer.append(char)
-        keybuffer.removeAll()
-      }
-    }
-    
-    if keybuffer == replace.chars {
-      if !buffer.isEmpty { substrings.append(String(buffer)) }
-      substrings.append(String(keybuffer))
-      indexs.append(substrings.count - 1)
-   }else{
-      substrings.append(String(buffer + keybuffer))
-    }
-    
-    if indexs.isEmpty || pointIndex == -1 { pointIndex = point }
-    return (substrings,indexs,pointIndex)
+    range.location += offset
+    return IR(text: text, range: range)
   }
   
 }
@@ -229,10 +189,12 @@ public extension LimitInputProtocol {
   /// - Parameter text: 待判断文本
   /// - Returns: 结构
   public func match(text: String) -> Bool {
+    
     if text.count > wordLimit {
       overWordLimitEvent?(text)
       return false
     }
+    
     for item in matchs {
       if !item.code(text) { return false }
     }
@@ -241,36 +203,6 @@ public extension LimitInputProtocol {
   
 }
 
-public extension LimitInputProtocol {
-  /// 文本过滤
-  ///
-  /// - Parameter text: 待过滤文本
-  /// - Returns: 过滤后文本
-  public func filter(text: String) -> String {
-    var text = text
-    for item in filters {
-      text = item.code(text)
-    }
-    text = filter(limit: text)
-    return text
-  }
-  
-  /// 过滤超过字符限制字符
-  ///
-  /// - Parameter text: 待过滤文本
-  /// - Returns: 过滤后文本
-  public func filter(limit text: String) -> String {
-    if wordLimit == Int.max { return text }
-    let endIndex = String.Index(encodedOffset: wordLimit)
-    if text.count > wordLimit{
-      overWordLimitEvent?(text)
-      return String(text[text.startIndex..<endIndex])
-    }
-    
-    return text
-  }
-  
-}
 
 public extension LimitInputProtocol {
   /// 是否响应工具条事件
@@ -280,7 +212,7 @@ public extension LimitInputProtocol {
   ///   - action: 执行方法名
   /// - Returns: 是否响应
   public func canPerformAction(_ respoder: UIResponder,text: String, action: Selector) -> Bool {
-    if disables.contains(.all) { return false }
+    if disables == LimitInputDisableState.allCases { return false }
     
     guard let state = LimitInputDisableState(rawValue: action.description) else {
       return true

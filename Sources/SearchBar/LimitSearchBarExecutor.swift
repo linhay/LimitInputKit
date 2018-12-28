@@ -49,10 +49,9 @@ public class LimitSearchBarExecutor: LimitInputDelegate, UISearchBarDelegate {
   public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
     textInputDelegate?.searchBar(searchBar, textDidChange: searchText)
     guard let searchBar = searchBar as? LimitSearchBar, let input = searchBar.searchField else { return }
-    searchBar.textDidChange(input: input, text: input.text ?? "", lastText: searchBar.lastText) { (res) in
-      if res != searchBar.text { searchBar.text = res }
-      searchBar.lastText = res
-    }
+    let ir = searchBar.textDidChange(input: input, text: searchText)
+    searchBar.text = ir?.text
+    (input as UITextInput).selectedRange = ir?.range
   }
   
   @available(iOS 3.0, *)

@@ -24,23 +24,29 @@
 import UIKit
 
 public class LimitSearchBar: UISearchBar,LimitInputProtocol {
+  
+  /// 调整至iOS11之前的风格(高度调整)
+  public static var isEnbleOldStyleBefore11 = true
+  
+  public var preIR: IR? = nil
+  
+  public var replacementList: [(key: String, value: String)] = []
+  
   /// 字数限制
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   /// 文字替换
   public var replaces: [LimitInputReplace] = LimitInput.replaces
-  /// 文字过滤与转换
-  public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
   public var matchs: [LimitInputMatch] = LimitInput.matchs
   /// 菜单禁用项
   public var disables: [LimitInputDisableState] = LimitInput.disables
   /// 设置占位文本偏移
   public var placeholderEdgeInsets: UIEdgeInsets = .zero
-  
+    
   /// 调整至iOS11之前的风格(高度调整)
-  public var isEnbleOldStyleBefore11: Bool = true{
+  public var isEnbleOldStyleBefore11 = LimitSearchBar.isEnbleOldStyleBefore11 {
     didSet{
       if #available(iOS 11,*), isEnbleOldStyleBefore11 {
         let reFont = searchField?.font?.withSize(14)
@@ -105,9 +111,6 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
     searchField.frame.origin.y = (self.bounds.height - searchField.bounds.height) * 0.5
     isSetedOldStyleBefore11 = true
   }
-  
-  /// 历史文本
-  var lastText = ""
   
   /// 输入控件
   public lazy var searchField: UITextField? = {

@@ -10,8 +10,9 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		CD0B2D0421D4A00200D9DE0D /* TextViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0B2D0321D4A00200D9DE0D /* TextViewViewController.swift */; };
 		CD7EE96D217778DB00800B3D /* ViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7EE96C217778DB00800B3D /* ViewController.storyboard */; };
-		CD7EE96F2178319600800B3D /* LimitTextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EE96E2178319600800B3D /* LimitTextFieldViewController.swift */; };
+		CDE8F7A721D25DC9007D2970 /* TextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8F7A621D25DC9007D2970 /* TextFieldViewController.swift */; };
 		F336755FB708709F9AE0D504 /* Pods_LimitInputKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7945EFE2340AD51FD33FC026 /* Pods_LimitInputKit_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,8 +29,9 @@
 		A04D365A043E11090F375129 /* LimitInputKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LimitInputKit.podspec; path = ../LimitInputKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AE90441A1989E5BDF1F41D53 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		B310FD298B11DD2C20ACFFB2 /* Pods-LimitInputKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LimitInputKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LimitInputKit_Tests/Pods-LimitInputKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		CD0B2D0321D4A00200D9DE0D /* TextViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewViewController.swift; sourceTree = "<group>"; };
 		CD7EE96C217778DB00800B3D /* ViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ViewController.storyboard; sourceTree = "<group>"; };
-		CD7EE96E2178319600800B3D /* LimitTextFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitTextFieldViewController.swift; sourceTree = "<group>"; };
+		CDE8F7A621D25DC9007D2970 /* TextFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldViewController.swift; sourceTree = "<group>"; };
 		D2E0F3FA8BF2CD0D9470CF53 /* Pods-LimitInputKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LimitInputKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LimitInputKit_Tests/Pods-LimitInputKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E643B13CDA890C265A7A6FB5 /* Pods-LimitInputKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LimitInputKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,11 +71,12 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				CD7EE96E2178319600800B3D /* LimitTextFieldViewController.swift */,
 				CD7EE96C217778DB00800B3D /* ViewController.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				CDE8F7A621D25DC9007D2970 /* TextFieldViewController.swift */,
+				CD0B2D0321D4A00200D9DE0D /* TextViewViewController.swift */,
 			);
 			name = "Example for LimitInputKit";
 			path = LimitInputKit;
@@ -196,7 +199,8 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BLFoundation/BLFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/LimitInputKit/LimitInputKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
@@ -204,12 +208,13 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BLFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LimitInputKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LimitInputKit_Example/Pods-LimitInputKit_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6330120AF79361C91C687C63 /* [CP] Check Pods Manifest.lock */ = {
@@ -241,7 +246,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD7EE96F2178319600800B3D /* LimitTextFieldViewController.swift in Sources */,
+				CDE8F7A721D25DC9007D2970 /* TextFieldViewController.swift in Sources */,
+				CD0B2D0421D4A00200D9DE0D /* TextViewViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

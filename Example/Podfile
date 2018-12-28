@@ -3,5 +3,6 @@ use_frameworks!
 target 'LimitInputKit_Example' do
   pod 'LimitInputKit', :path => '../'
   pod 'SnapKit'
+  pod 'BLFoundation'
 #  pod 'BLFoundation'
 end

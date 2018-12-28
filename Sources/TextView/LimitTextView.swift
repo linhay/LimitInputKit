@@ -24,14 +24,14 @@
 import UIKit
 
 public class LimitTextView: UITextView,LimitInputProtocol {
+  
+  public var preIR: IR? = nil
   /// 字数限制
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   /// 文字替换
   public var replaces: [LimitInputReplace] = LimitInput.replaces
-  /// 文字过滤与转换
-  public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
   public var matchs: [LimitInputMatch] = LimitInput.matchs
   /// 菜单禁用项
@@ -72,26 +72,6 @@ public class LimitTextView: UITextView,LimitInputProtocol {
     get { return inputHelp }
     set { inputHelp = LimitTextViewExecutor(delegate: newValue)
       super.delegate = inputHelp
-    }
-  }
-  
-  /// 文本框文本
-  public override var text: String!{
-    set {
-      if newValue == text { return }
-      super.text = newValue
-      lastText = newValue
-    }
-    get {
-      return super.text
-    }
-  }
-  
-  /// 历史文本
-  public var lastText = ""{
-    didSet{
-      if lastText == oldValue { return }
-      guard wordLimit != Int.max else { return }
     }
   }
   
@@ -138,11 +118,10 @@ extension LimitTextView{
 
 extension LimitTextView {
   @objc private func textView(changed not: Notification) {
-    guard let input = not.object as? LimitTextView, self == input else { return }
-    textDidChange(input: input, text: input.text, lastText: lastText) { (res) in
-      if res != input.text { input.text = res }
-      lastText = res
-    }
+    guard let input = not.object as? LimitTextView, self === input else { return }
+    let ir = textDidChange(input: input, text: input.text)
+    input.text = ir?.text
+    (input as UITextInput).selectedRange = ir?.range
   }
   
 }

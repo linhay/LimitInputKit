@@ -26,14 +26,14 @@ import UIKit
 @IBDesignable
 open class LimitTextField: UITextField,LimitInputProtocol {
   
+  public var preIR: IR? = nil
+
   /// 字数限制
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   /// 文字替换
   public var replaces: [LimitInputReplace] = LimitInput.replaces
-  /// 文字过滤与转换
-  public var filters: [LimitInputFilter] = LimitInput.filters
   /// 判断输入是否合法的
   public var matchs: [LimitInputMatch] = LimitInput.matchs
   /// 菜单禁用项
@@ -45,8 +45,6 @@ open class LimitTextField: UITextField,LimitInputProtocol {
     return self.value(forKey: "_placeholderLabel") as? UILabel
   }()
   
-  /// 历史文本
-  private var lastText = ""
   
   private var inputHelp: LimitTextFieldExecutor?
   
@@ -136,12 +134,12 @@ extension LimitTextField{
 }
 
 extension LimitTextField {
+  
   @objc private func textField(changed not: Notification) {
-    guard let input = not.object as? LimitTextField, self == input else { return }
-    textDidChange(input: input, text: input.text ?? "", lastText: lastText) { (res) in
-      if res != input.text { input.text = res }
-      lastText = res
-    }
+    guard let input = not.object as? LimitTextField, self === input else { return }
+    let ir = textDidChange(input: input, text: input.text ?? "")
+    input.text = ir?.text
+    (input as UITextInput).selectedRange = ir?.range
   }
 }
 

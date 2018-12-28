@@ -9,7 +9,6 @@ import UIKit
 
 /// 禁用状态
 ///
-/// - all: 全部禁用
 /// - cut: 剪切
 /// - copy: 复制
 /// - paste: 粘贴
@@ -34,8 +33,7 @@ import UIKit
 /// - accessibilitySpeakLanguageSelection: 语言选择按钮
 /// - accessibilityPauseSpeaking: 暂停朗读
 /// - share: 分享
-public enum LimitInputDisableState: String {
-  case all
+public enum LimitInputDisableState: String,CaseIterable {
   case cut = "cut:"
   case copy = "copy:"
   case paste = "paste:"
