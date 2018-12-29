@@ -71,7 +71,7 @@ public extension LimitInputProtocol {
   
   func setOverWordLimitEvent(_ event: @escaping (_ text: String)->()) {
     self.overWordLimitEvent = event
-  }textDidChangeEvent
+  }
   
   func setTextDidChangeEvent(_ event: @escaping (_ text: String)->()) {
     self.textDidChangeEvent = event
