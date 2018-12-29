@@ -67,6 +67,18 @@ public struct IR {
   let range: NSRange
 }
 
+public extension LimitInputProtocol {
+  
+  func setOverWordLimitEvent(_ event: @escaping (_ text: String)->()) {
+    self.overWordLimitEvent = event
+  }textDidChangeEvent
+  
+  func setTextDidChangeEvent(_ event: @escaping (_ text: String)->()) {
+    self.textDidChangeEvent = event
+  }
+  
+}
+
 extension LimitInputProtocol {
   
   /// 获取输入后文本
