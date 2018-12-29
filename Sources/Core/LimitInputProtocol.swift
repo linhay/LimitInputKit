@@ -57,7 +57,8 @@ public protocol LimitInputProtocol: NSObjectProtocol {
   var disables: [LimitInputDisableState] { set get }
   // 超过字数限制
   var overWordLimitEvent: ((_ text: String)->())? { set get }
-  
+  // 完成输入
+  var textDidChangeEvent: ((_ text: String)->())? { set get }
   var preIR: IR? { set get }
 }
 

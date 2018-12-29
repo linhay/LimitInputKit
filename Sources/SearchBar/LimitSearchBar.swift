@@ -36,6 +36,8 @@ public class LimitSearchBar: UISearchBar,LimitInputProtocol {
   public var wordLimit: Int = LimitInput.wordLimit
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
+  // 完成输入
+  public var textDidChangeEvent: ((_ text: String)->())? = nil
   /// 文字替换
   public var replaces: [LimitInputReplace] = LimitInput.replaces
   /// 判断输入是否合法的
