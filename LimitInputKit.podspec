@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LimitInputKit'
-  s.version          = '0.0.5'
+  s.version          = '0.0.6'
   s.summary          = 'iOS - 输入内容控制控件'
   
   s.homepage = 'https://github.com/linhay/LimitInputKit'
