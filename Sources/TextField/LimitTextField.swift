@@ -27,7 +27,7 @@ import UIKit
 open class LimitTextField: UITextField,LimitInputProtocol {
   
   public var preIR: IR? = nil
-
+  
   /// 文字超出字符限制执行
   public var overWordLimitEvent: ((String) -> ())? = LimitInput.overWordLimitEvent
   // 完成输入
@@ -139,11 +139,12 @@ extension LimitTextField{
 extension LimitTextField {
   
   @objc private func textField(changed not: Notification) {
-    guard let input = not.object as? LimitTextField, self === input else { return }
-    let ir = textDidChange(input: input, text: input.text ?? "")
-    input.text = ir?.text
-    (input as UITextInput).selectedRange = ir?.range
-    input.textDidChangeEvent?(ir?.text ?? "")
+    guard let input = not.object as? LimitTextField,
+      self === input,
+      let ir = textDidChange(input: input, text: input.text ?? "") else { return }
+    input.text = ir.text
+    (input as UITextInput).selectedRange = ir.range
+    input.textDidChangeEvent?(ir.text)
   }
 }
 

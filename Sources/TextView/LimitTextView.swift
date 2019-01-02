@@ -120,11 +120,12 @@ extension LimitTextView{
 
 extension LimitTextView {
   @objc private func textView(changed not: Notification) {
-    guard let input = not.object as? LimitTextView, self === input else { return }
-    let ir = textDidChange(input: input, text: input.text)
-    input.text = ir?.text
-    (input as UITextInput).selectedRange = ir?.range
-    input.textDidChangeEvent?(ir?.text ?? "")
+    guard let input = not.object as? LimitTextView,
+    self === input,
+    let ir = textDidChange(input: input, text: input.text) else { return }
+    input.text = ir.text
+    (input as UITextInput).selectedRange = ir.range
+    input.textDidChangeEvent?(ir.text)
   }
   
 }

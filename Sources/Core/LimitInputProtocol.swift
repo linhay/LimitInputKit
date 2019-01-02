@@ -145,7 +145,7 @@ extension LimitInputProtocol {
     guard input.markedTextRange == nil, let range = input.selectedRange else { return nil }
     let ir1 = replaces(ir: IR(text: text, range: range))
     let ir2 = match(text: ir1.text) ? ir1 : self.preIR ?? IR(text: "", range: NSRange(location: 0, length: 0))
-    if self.preIR?.text == ir2.text { return self.preIR }
+    if self.preIR?.text == ir2.text { return nil }
     return ir2
   }
   
@@ -178,7 +178,7 @@ extension LimitInputProtocol {
 extension LimitInputProtocol {
   
   func replaces(ir: IR) -> IR {
-    if self.replaces.isEmpty { return ir }
+    if self.replaces.isEmpty || ir.text.isEmpty { return ir }
     var text = ir.text
     var range = ir.range
     var offset = 0
@@ -202,6 +202,8 @@ public extension LimitInputProtocol {
   /// - Parameter text: 待判断文本
   /// - Returns: 结构
   public func match(text: String) -> Bool {
+    
+    if text.isEmpty { return true }
     
     if text.count > wordLimit {
       overWordLimitEvent?(text)
