@@ -139,9 +139,11 @@ extension LimitTextField{
 extension LimitTextField {
   
   @objc private func textField(changed not: Notification) {
-    guard let input = not.object as? LimitTextField,
-      self === input,
-      let ir = textDidChange(input: input, text: input.text ?? "") else { return }
+    guard let input = not.object as? LimitTextField, self === input else { return }
+    guard let ir = textDidChange(input: input, text: input.text ?? "") else {
+      input.textDidChangeEvent?(input.text ?? "")
+      return
+    }
     input.text = ir.text
     (input as UITextInput).selectedRange = ir.range
     input.textDidChangeEvent?(ir.text)
